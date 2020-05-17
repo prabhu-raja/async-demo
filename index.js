@@ -1,26 +1,25 @@
 console.log('Before');
-getUser(11, getReps);
+
+getUser(11)
+  .then(usr => getRepositories(usr.gitHubUserName))
+  .then(repos => console.log(`Repos - ${repos}`))
+  .catch(err => console.log('Error', err.message));
+
 console.log('After');
 
-function getReps(usr) {
-  getRepositories(usr.gitHubUserName, getCommits);
+function getUser(id) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ id: id, gitHubUserName: 'PR'});
+    }, 1000);
+  });
 }
 
-function getCommits(repos) {
-  console.log('Final Repo', repos);
+function getRepositories(name) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log(`Getting Repos for ${name}`);
+      resolve(['repo1', 'repo2', 'repo3']);
+    }, 1000);
+  });
 }
-
-function getUser(id, callback) {
-  setTimeout(() => {
-    console.log('Reading a user from DB...');
-    callback({ id: id, gitHubUserName: 'PR'});
-  }, 1000);  
-}
-
-function getRepositories(name, callback) {
-  setTimeout(() => {
-    console.log(`Getting Reposttories for ${name}`);
-    callback(['repo1', 'repo2', 'repo3'])
-  }, 1000);
-}
-
