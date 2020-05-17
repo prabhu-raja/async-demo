@@ -1,11 +1,14 @@
 console.log('Before');
-getUser(11, usr => {
-  console.log('Usr - ', usr);
-  getRepositories(usr.gitHubUserName, repos => {
-    console.log('Repos - ', repos);
-  });
-});
+getUser(11, getReps);
 console.log('After');
+
+function getReps(usr) {
+  getRepositories(usr.gitHubUserName, getCommits);
+}
+
+function getCommits(repos) {
+  console.log('Final Repo', repos);
+}
 
 function getUser(id, callback) {
   setTimeout(() => {
